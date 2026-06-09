@@ -65,7 +65,7 @@ class DateRefactored:
         return self.year < other.year or ( self.year == other.year and  self.day < other.day )
 
     def __str__(self) -> str:
-        return f"{self.year}-{self.mth:02d}"
+        return f"{self.year:04d}-{self.mth:02d}-{self.day:02d}"
 
     def recalculate_date(self) -> None:
         for mth in range(1, 13):
@@ -77,3 +77,12 @@ class DateRefactored:
 
     def to_tuple(self) -> Tuple[int, int, int]:
         return self.year, self.mth, self.day
+
+#   Extracted helper functions into a dedicated abstract utility class,
+#   leaving only date-recalculation logic in DateRefactored and adding leap-year handling.
+#   Introduced a constant for the minimum supported year so future policy changes
+#   can be applied in one place.
+#   Reduced code duplication and applied Fail Fast and NWIM principles.
+#   As a further improvement, month/day and year-length numeric literals can be
+#   extracted into named constants to reduce the risk of shotgun surgery.
+#   Mitigated primitive obsession.
